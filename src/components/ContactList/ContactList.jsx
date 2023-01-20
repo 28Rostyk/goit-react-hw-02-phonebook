@@ -6,7 +6,7 @@ const ContactList = ({ contacts }) => {
       {contacts.map(({ name, id, number }) => {
         return (
           <li key={id}>
-            {name}: {number}
+            {name}: {number} <button>Delete</button>
           </li>
         );
       })}

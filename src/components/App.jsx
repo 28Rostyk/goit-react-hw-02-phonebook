@@ -19,14 +19,25 @@ class App extends Component {
   nameInputId = nanoid();
 
   addContact = (name, number) => {
-    const contact = {
-      name,
-      number,
-      id: nanoid(),
-    };
-    this.setState(prevState => ({
-      contacts: [contact, ...prevState.contacts],
-    }));
+    const { contacts } = this.state;
+
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+    } else {
+      const newContact = {
+        id: nanoid(),
+        name: name,
+        number: number,
+      };
+
+      this.setState(({ contacts }) => ({
+        contacts: [...contacts, newContact],
+      }));
+    }
   };
 
   changeFilter = e => {
