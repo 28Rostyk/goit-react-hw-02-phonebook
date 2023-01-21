@@ -3,6 +3,7 @@ import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
 
+import css from './App.module.css';
 const { Component } = require('react');
 
 class App extends Component {
@@ -62,16 +63,19 @@ class App extends Component {
     const { filter } = this.state;
     const visibleContact = this.getVisibleContact();
     return (
-      <>
+      <div className={css.Box}>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.addContact} />
-        <h2>Contacts</h2>
-        <Filter value={filter} onChange={this.changeFilter} />
-        <ContactList
-          contacts={visibleContact}
-          onDeleteContact={this.deleteContact}
-        />
-      </>
+
+        <div className={css.ContactsBox}>
+          <h2>Contacts</h2>
+          <Filter value={filter} onChange={this.changeFilter} />
+          <ContactList
+            contacts={visibleContact}
+            onDeleteContact={this.deleteContact}
+          />
+        </div>
+      </div>
     );
   }
 }
