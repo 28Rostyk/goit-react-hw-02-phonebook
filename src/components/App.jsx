@@ -8,10 +8,10 @@ const { Component } = require('react');
 class App extends Component {
   state = {
     contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      { id: nanoid(4), name: 'Rosie Simpson', number: '459-12-56' },
+      { id: nanoid(4), name: 'Hermione Kline', number: '443-89-12' },
+      { id: nanoid(4), name: 'Eden Clements', number: '645-17-79' },
+      { id: nanoid(4), name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
   };
@@ -29,7 +29,7 @@ class App extends Component {
       alert(`${name} is already in contacts`);
     } else {
       const newContact = {
-        id: nanoid(),
+        id: nanoid(4),
         name: name,
         number: number,
       };
@@ -38,6 +38,12 @@ class App extends Component {
         contacts: [...contacts, newContact],
       }));
     }
+  };
+
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
   };
 
   changeFilter = e => {
@@ -61,7 +67,10 @@ class App extends Component {
         <ContactForm onSubmit={this.addContact} />
         <h2>Contacts</h2>
         <Filter value={filter} onChange={this.changeFilter} />
-        <ContactList contacts={visibleContact} />
+        <ContactList
+          contacts={visibleContact}
+          onDeleteContact={this.deleteContact}
+        />
       </>
     );
   }
