@@ -17,11 +17,8 @@ class App extends Component {
     filter: '',
   };
 
-  nameInputId = nanoid();
-
   addContact = (name, number) => {
     const { contacts } = this.state;
-
     if (
       contacts.some(
         contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -60,12 +57,12 @@ class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
+    const { filter, contacts } = this.state;
     const visibleContact = this.getVisibleContact();
     return (
       <div className={css.Box}>
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact} />
+        <ContactForm onSubmit={this.addContact} contacts={contacts} />
 
         <div className={css.ContactsBox}>
           <h2>Contacts</h2>

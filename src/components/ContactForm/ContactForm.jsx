@@ -1,8 +1,13 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import css from './ContactForm.module.css';
+import { nanoid } from 'nanoid';
 
 class ContactForm extends Component {
+  static defaultProps = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     name: '',
     number: '',
@@ -12,10 +17,19 @@ class ContactForm extends Component {
     const { name, number } = this.state;
     e.preventDefault();
     this.props.onSubmit(name, number);
-    this.setState({
-      name: '',
-      number: '',
-    });
+    const nameInContact = this.props.contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    if (nameInContact) {
+      this.setState({
+        name: '',
+      });
+    } else {
+      this.setState({
+        name: '',
+        number: '',
+      });
+    }
   };
 
   handleChange = e => {
@@ -26,10 +40,11 @@ class ContactForm extends Component {
   };
 
   render() {
+    const labelId = nanoid();
     const { name, number } = this.state;
     return (
       <form className={css.addForm} onSubmit={this.handleSubmit}>
-        <label htmlFor={this.nameInputId}>Name</label>
+        <label htmlFor={labelId}>Name</label>
         <input
           className={css.addInput}
           type="text"
@@ -38,10 +53,10 @@ class ContactForm extends Component {
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
-          id={this.nameInputId}
+          id={labelId}
           onChange={this.handleChange}
         />
-        <label htmlFor={this.nameInputId}>Phone</label>
+        <label htmlFor={labelId}>Phone</label>
         <input
           className={css.addInput}
           type="tel"
@@ -50,6 +65,7 @@ class ContactForm extends Component {
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
+          id={labelId}
           onChange={this.handleChange}
         />
         <button className={css.addButton}>Add contact</button>
@@ -59,7 +75,3 @@ class ContactForm extends Component {
 }
 
 export default ContactForm;
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
