@@ -3,7 +3,7 @@ import css from './ContactListItem.module.css';
 
 const ContactListItem = ({ id, name, number, onDeleteContact }) => {
   return (
-    <li className={css.contactItem} key={id}>
+    <li className={css.contactItem} 
       <span className={css.contactName}>{name}:</span>
       <span className={css.contactNumber}>{number}</span>
       <button className={css.delButton} onClick={() => onDeleteContact(id)}>
